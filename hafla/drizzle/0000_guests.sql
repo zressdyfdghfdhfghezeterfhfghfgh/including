@@ -1,0 +1,1 @@
+CREATE TABLE guests (id TEXT PRIMARY KEY NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL, name_key TEXT NOT NULL UNIQUE, added_by TEXT NOT NULL CHECK (added_by IN ('Hassan','Hamza','Zakaria')), created_at TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1);
