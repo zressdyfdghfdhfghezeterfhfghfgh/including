@@ -1,1 +1,14 @@
-<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>La fête</title></head><body><p>Ouverture de la liste…</p><script>const url=new URL("./index.html",location.href);url.searchParams.set("fresh",Date.now().toString());location.replace(url.href);</script><noscript><a href="./index.html?v=202610112105">Ouvrir la liste</a></noscript></body></html>
+<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>La fête</title><style>body{font:16px Arial;background:#f6f8f4;color:#174f46;text-align:center;padding:70px 20px}button{padding:14px 24px;background:#174f46;color:white;border:0;border-radius:12px;font:inherit}</style></head><body><p id="status">Chargement de la dernière version…</p><button id="retry" hidden onclick="loadLatest()">Réessayer</button><script>
+async function loadLatest(){
+document.getElementById('retry').hidden=true;
+try{
+const u=new URL('./index.html',location.href);u.searchParams.set('fresh',Date.now().toString());
+const r=await fetch(u.href,{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
+if(!r.ok)throw Error('HTTP '+r.status);
+const html=await r.text();
+if(!html.includes('id="duplicateToggle"'))throw Error('La mise à jour est encore en cours');
+document.open();document.write(html);document.close();
+}catch(e){document.getElementById('status').textContent='Connexion indisponible ou mise à jour en cours. Réessayez dans un instant.';document.getElementById('retry').hidden=false;}
+}
+loadLatest();
+</script></body></html>
